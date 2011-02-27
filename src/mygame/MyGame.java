@@ -21,7 +21,7 @@ public class MyGame extends BasicGame{
 	public void init(GameContainer gc) throws SlickException 
 	{
 		land = new Image("assets/land.jpeg");
-		plane = new GameObject("assets/plane.png",400,300,1.0f);
+		plane = new GameObject("assets/plane.png");
 	}
 
 	public void update(GameContainer gc, int delta) 
@@ -31,19 +31,19 @@ public class MyGame extends BasicGame{
 		 
         if(input.isKeyDown(Input.KEY_A))
         {
-            plane.sprite.rotate(-0.2f * delta);
+            plane.rotate(-0.2f * delta);
         }
  
         if(input.isKeyDown(Input.KEY_D))
         {
-            plane.sprite.rotate(0.2f * delta);
+            plane.rotate(0.2f * delta);
         }
  
         if(input.isKeyDown(Input.KEY_W))
         {
             float hip = 0.4f * delta;
  
-            float rotation = plane.sprite.getRotation();
+            float rotation = plane.getRotation();
  
             plane.x+= hip * Math.sin(Math.toRadians(rotation));
             plane.y-= hip * Math.cos(Math.toRadians(rotation));
@@ -52,12 +52,12 @@ public class MyGame extends BasicGame{
         if(input.isKeyDown(Input.KEY_2))
         {
             plane.scale += (plane.scale >= 5.0f) ? 0 : 0.1f;
-            plane.sprite.setCenterOfRotation(plane.sprite.getWidth()/2.0f*plane.scale, plane.sprite.getHeight()/2.0f*plane.scale);
+            plane.setCenterOfRotation(plane.getWidth()/2.0f*plane.scale, plane.getHeight()/2.0f*plane.scale);
         }
         if(input.isKeyDown(Input.KEY_1))
         {
             plane.scale -= (plane.scale <= 1.0f) ? 0 : 0.1f;
-            plane.sprite.setCenterOfRotation(plane.sprite.getWidth()/2.0f*plane.scale, plane.sprite.getHeight()/2.0f*plane.scale);
+            plane.setCenterOfRotation(plane.getWidth()/2.0f*plane.scale, plane.getHeight()/2.0f*plane.scale);
         }
 	}
 
