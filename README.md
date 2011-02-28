@@ -3,7 +3,7 @@ Swarm, a Java RTS
 
 Swarm is more of a learning tool than anything else.
 It uses advanced programming concepts forcing me to learn how to use them appropriately.
-Furthermore, it is a way to get used to major game concepts.
+Furthermore, it is a way to get used to developing a game.
 
 Future Plans
 ------------
