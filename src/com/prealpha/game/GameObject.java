@@ -1,7 +1,10 @@
 package com.prealpha.game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Rectangle;
 
 import com.prealpha.util.Point;
 
@@ -12,13 +15,24 @@ public class GameObject extends Image
 	public float scale;
 	public float zIndex;
 	
+	public Color color = Color.white;
+	
 	public GameObject(String filePath) throws SlickException
 	{
 		super(filePath);
 		this.pos = new Point();
-		this.scale = 1.0f;
-		this.zIndex = 1.0f;
+		this.scale = 1f;
+		this.zIndex = 1f;
+	}
+	
+	public GameObject(String filePath,float zIndex) throws SlickException
+	{
+		super(filePath);
+		this.pos = new Point();
+		this.scale = 1f;
+		this.zIndex = zIndex;
 		
+		this.setCenterOfRotation(this.getWidth()/2.0f*scale, this.getHeight()/2.0f*scale);
 	}
 	public GameObject(String filePath,Point p,float scale,float zIndex) throws SlickException
 	{
@@ -26,6 +40,8 @@ public class GameObject extends Image
 		this.pos = p;
 		this.scale = scale;
 		this.zIndex = zIndex;
+		
+		this.setCenterOfRotation(this.getWidth()/2.0f*scale, this.getHeight()/2.0f*scale);
 	}
 	public GameObject(String filePath,float x, float y,float scale,float zIndex) throws SlickException
 	{
@@ -33,10 +49,47 @@ public class GameObject extends Image
 		this.pos = new Point(x,y);
 		this.scale = scale;
 		this.zIndex = zIndex;
+		
+		this.setCenterOfRotation(this.getWidth()/2.0f*scale, this.getHeight()/2.0f*scale);
 	}
 	
-	public void draw(Point offset)
-	{		
-		super.draw(this.pos.getX()+offset.getX(),this.pos.getY()+offset.getY(),this.scale);
+	public void draw()
+	{
+		super.draw(this.pos.getX(),this.pos.getY(),this.scale);
+	}
+	
+	private boolean isIn(Rectangle offset)
+	{
+		this.setCenterOfRotation(this.getWidth()/2.0f*this.scale, this.getHeight()/2.0f*this.scale);
+		
+		float offX = offset.getX()*zIndex;
+		float offY = offset.getY()*zIndex;
+		
+		float objWidth = this.getWidth()*scale;
+		float objHeight = this.getHeight()*scale;
+		
+		boolean isInLeft = this.pos.getX()+objWidth>=offX;
+		boolean isInRight = this.pos.getX()<= offX+offset.getWidth();
+		
+		boolean isInTop = this.pos.getY()+objHeight>=offY;
+		boolean isInBottom = this.pos.getY() <= offY+offset.getHeight(); 
+		
+		return (isInLeft && isInRight && isInTop && isInBottom);
+	}
+	
+	public void draw(Rectangle offset)
+	{	
+		float offX = offset.getX()*zIndex;
+		float offY = offset.getY()*zIndex;
+		
+		if(isIn(offset))
+		{
+			super.draw(this.pos.getX()-offX,this.pos.getY()-offY,this.scale,this.color);
+		}
+		else
+		{
+			System.out.println("Off Screen");
+			//don't render it.
+		}
 	}
 }

@@ -1,6 +1,10 @@
 package com.prealpha.util;
 
-public class Utilities 
+import java.util.Random;
+
+import org.newdawn.slick.geom.Rectangle;
+
+public class Uti 
 {
 	public static float clamp(float under, float var, float above)
 	{
@@ -39,5 +43,22 @@ public class Utilities
 		{
 			return var;
 		}
+	}
+	
+	public static int randRange(Random r,int above, int below)
+	{
+		return r.nextInt(below-above+1)+above;
+	}
+	
+	public static float randRange(Random r,float above, float below)
+	{
+		float rFloat = r.nextFloat() * above + below;
+	 	return rFloat;
+		
+	}
+	
+	public static float getArea(Rectangle r)
+	{
+		return r.getWidth()*r.getHeight();
 	}
 }
