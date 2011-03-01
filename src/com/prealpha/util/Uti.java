@@ -4,6 +4,10 @@ import java.util.Random;
 
 import org.newdawn.slick.geom.Rectangle;
 
+/**
+ * @author ty
+ * I don't even know...  Don't talk to me about this class...
+ */
 public class Uti 
 {
 	public static float clamp(float under, float var, float above)
@@ -50,6 +54,13 @@ public class Uti
 		return r.nextInt(below-above+1)+above;
 	}
 	
+	/**
+	 * I don't even think that this method works... :P
+	 * @param r
+	 * @param above
+	 * @param below
+	 * @return
+	 */
 	public static float randRange(Random r,float above, float below)
 	{
 		float rFloat = r.nextFloat() * above + below;

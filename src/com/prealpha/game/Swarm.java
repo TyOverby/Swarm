@@ -16,59 +16,78 @@ import com.prealpha.game.entities.BgStar;
 import com.prealpha.game.entities.Ship;
 import com.prealpha.util.Uti;
 
-public class MyGame extends BasicGame{
+/**
+ * @author ty
+ * Base class for the game. Contains all game logic.
+ */
+public class Swarm extends BasicGame{
 
-	private Screen winPos = null;
-	private Rectangle gameSize = new Rectangle(0.0f,0.0f,32000,32000);
+	private ViewPoint viewPort = null;
+	private Rectangle gameSize = new Rectangle(0.0f,0.0f,1000,1000);
 	
 	Random rand = new Random();
 	
+	//init all game objects
 	private Ship[] ships;
 	private BgStar[] bgStars;
 	private GameObject plane;
 	private GameObject uv;
 	
+	//set up the input for use in multiple methods
 	Input input;
 	
-	public MyGame()
+	public Swarm()
 	{
 		super("Swarm");
 	}
-
+	
+	/**
+	 * Runs once in the beginning of the game
+	 */
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		winPos = new Screen(0.0f,0.0f,gc.getWidth(),gc.getHeight(),gameSize);
+		//set the Window position to 0,0 with a height and witdth equal to that of the Window
+		viewPort = new ViewPoint(0.0f,0.0f,gc.getWidth(),gc.getHeight());
 		
-		/*bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
+		//Make a new array of Stars with a length of the area of the gameSize divided by 7000
+		bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
+		//Initialize all of the Background Stars
 		for(int i=0;i<bgStars.length;i++)
 		{
+			//init the star with a predefined Random (for speed) and gameSize (to tell it where to place them)
 			bgStars[i] = new BgStar(gameSize,rand);
-		}*/
+		}
 		
 		ships = new Ship[20];
+		//initialize all of the Ships
 		for(int i=0;i<ships.length;i++)
 		{
 			ships[i] = new Ship();
 			ships[i].setPos(new Vector2f(50,50));
 		}
 		
+		//make the plane and UV objects
 		plane = new GameObject("assets/plane.png",new Vector2f(50,300),1f,1f);
-		uv = new GameObject("assets/uvTemplate.jpg",1f);
+		uv = new GameObject("assets/uvTemplate.jpg");
 		
         gc.setShowFPS(false);
         
+        //set up the mouse event listener
+        input = gc.getInput();
+		viewPort.setInput(input);
+		//added listener for the window scaling and such
+		input.addMouseListener(viewPort);
 	}
-
+	/**
+	 * Runs every update loop
+	 */
 	public void update(GameContainer gc, int delta) throws SlickException     
 	{
 		getInput(gc,delta);
 	}
 	public void getInput(GameContainer gc, int delta)
 	{
-		input = gc.getInput();
-		winPos.setInput(input);
-		input.addMouseListener(winPos);
-		
+		//Input for the Plane
         if(input.isKeyDown(Input.KEY_A))
         {
             plane.rotate(-0.2f * delta);
@@ -89,50 +108,52 @@ public class MyGame extends BasicGame{
             plane.pos.y =(float) (plane.pos.getY()- hip * Math.cos(Math.toRadians(rotation)));
         }
         
+        //input for Zooming
         if(input.isKeyDown(Input.KEY_1))
         {
-        	winPos.setMag(winPos.getMag()+0.003f);
+        	viewPort.setZoom(viewPort.getZoom()+0.003f);
         }
         if(input.isKeyDown(Input.KEY_2))
         {
-        	winPos.setMag(winPos.getMag()-0.005f);
+        	viewPort.setZoom(viewPort.getZoom()-0.005f);
         }
         if(input.isKeyDown(Input.KEY_ENTER))
         {
-        	String form = "["+winPos.getWidth()+","+winPos.getHeight()+"] ("+winPos.getX()+","+winPos.getY()+") ;" +winPos.getMag();
+        	String form = "["+viewPort.getWidth()+","+viewPort.getHeight()+"] ("+viewPort.getX()+","+viewPort.getY()+") ;" +viewPort.getZoom();
         	System.out.println(form);
         }
         
+        //input for scrolling
         if(input.isKeyDown(Input.KEY_UP))
         {
-        	float pos = winPos.getY()-1*delta; 
+        	float pos = viewPort.getY()-1*delta; 
         	if(pos>=0)
         	{
-        		winPos.setY(pos);
+        		viewPort.setY(pos);
         	}
         }
         if(input.isKeyDown(Input.KEY_DOWN))
         {
-        	float pos = winPos.getY()+1*delta;
-        	if(pos+winPos.getHeight()<=gameSize.getHeight())
+        	float pos = viewPort.getY()+1*delta;
+        	if(pos+viewPort.getHeight()<=gameSize.getHeight())
         	{
-        		winPos.setY(pos);
+        		viewPort.setY(pos);
         	}
         }
         if(input.isKeyDown(Input.KEY_LEFT))
         {
-        	float pos = winPos.getX()-1*delta;
+        	float pos = viewPort.getX()-1*delta;
         	if(pos>=0)
         	{
-        		winPos.setX(pos);
+        		viewPort.setX(pos);
         	}
         }
         if(input.isKeyDown(Input.KEY_RIGHT))
         {
-        	float pos = winPos.getX()+1*delta;
-        	if(pos+winPos.getWidth()<=gameSize.getWidth())
+        	float pos = viewPort.getX()+1*delta;
+        	if(pos+viewPort.getWidth()<=gameSize.getWidth())
         	{
-        		winPos.setX(pos);
+        		viewPort.setX(pos);
         	}
         }
         
@@ -140,28 +161,31 @@ public class MyGame extends BasicGame{
 
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{		
-		/*for(BgStar bs:bgStars)
+		//draw all of the stars
+		for(BgStar bs:bgStars)
 		{
-			bs.draw(winPos);
-		}*/
-		
-		
-		
-		uv.draw(winPos);
-		
-		for(Ship s: ships)
-		{
-			s.draw(winPos);
+			bs.draw(viewPort);
 		}
 		
-		plane.draw(winPos);
+		
+		//draw the UV projection
+		//uv.draw(winPos);
+		
+		//draw all of the ships
+		for(Ship s: ships)
+		{
+			s.draw(viewPort);
+		}
+		
+		//draw the plane
+		plane.draw(viewPort);
 		
 		//g.draw(gameSize);
 	}
 
 	public static void main(String[] args) throws SlickException
 	{		
-		AppGameContainer app =new AppGameContainer(new MyGame());
+		AppGameContainer app =new AppGameContainer(new Swarm());
 
 		app.setDisplayMode(600,600, false);
 		app.start();
