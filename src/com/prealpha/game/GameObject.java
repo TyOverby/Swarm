@@ -57,15 +57,19 @@ public class GameObject extends Image
 		super.draw(this.pos.getX(),this.pos.getY(),this.scale);
 	}
 	
-	private boolean isIn(Rectangle offset)
-	{
-		this.setCenterOfRotation(this.getWidth()/2.0f*this.scale, this.getHeight()/2.0f*this.scale);
+	private boolean isIn(Screen offset)
+	{		
+		
+		
+		float magScale = (float)1/offset.getMag();
+		
+		this.setCenterOfRotation(this.getWidth()/2.0f*this.scale/magScale, this.getHeight()/2.0f*this.scale/magScale);
 		
 		float offX = offset.getX()*zIndex;
 		float offY = offset.getY()*zIndex;
 		
-		float objWidth = this.getWidth()*scale;
-		float objHeight = this.getHeight()*scale;
+		float objWidth = this.getWidth()*scale*magScale;
+		float objHeight = this.getHeight()*scale*magScale;
 		
 		boolean isInLeft = this.pos.getX()+objWidth>=offX;
 		boolean isInRight = this.pos.getX()<= offX+offset.getWidth();
@@ -78,19 +82,20 @@ public class GameObject extends Image
 	
 	public void draw(Screen offset)
 	{	
-		float magScale = offset.getMag();
-		float magPos = offset.getMag();
+		float magScale = 1/offset.getMag();
 		
 		float offX = offset.getX()*zIndex;
 		float offY = offset.getY()*zIndex;
 		
+		
+		
 		if(isIn(offset))
 		{
-			super.draw(this.pos.getX()*magScale-offX,this.pos.getY()*magScale-offY,this.scale*magScale,this.color);
+			super.draw(this.pos.getX()/magScale-offX,this.pos.getY()/magScale-offY,this.scale/magScale,this.color);
 		}
 		else
 		{
-			//System.out.println("Off Screen");
+			System.out.println(offset.getMag());
 			//don't render it.
 		}
 	}

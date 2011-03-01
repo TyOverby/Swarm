@@ -13,13 +13,15 @@ public class Screen extends Rectangle implements MouseListener
 	private final int SPEED = 10000;
 	
 	private Input input;
+	private Rectangle gameRect;
 	
-	public Screen(float x, float y, float width, float height)
+	public Screen(float x, float y, float width, float height,Rectangle gameRect)
 	{
 		super(x, y, width, height);	
-		INIT_WIDTH = width;
-		INIT_HEIGHT = height;
-		mag = 1;
+		this.INIT_WIDTH = width;
+		this.INIT_HEIGHT = height;
+		this.mag = 1;
+		this.gameRect = gameRect;
 	}
 	public float getMag() 
 	{
@@ -33,25 +35,16 @@ public class Screen extends Rectangle implements MouseListener
 	}
 	public void changeMag(int delta,int mouseX,int mouseY)
 	{
-		float newMag = getMag()+ ((float)delta)/(float)SPEED;
+		//delta /= 100;
+		//setMag(getMag()+delta);
 		
-		if(newMag<2) //don't let it get too magnified
-		{
-			setMag(newMag);
-			
-			this.setCenterX(mouseX+this.getX());
-			if(this.getX()<0)
-			{
-				this.setX(0);
-			}
-			
-			this.setCenterY(mouseY+this.getY());
-			if(this.getY()<0)
-			{
-				this.setY(0);
-			}
-				
-		}
+		setMag(getMag()*2);
+		
+		float targetX = 250;
+		float targetY = 250;
+		
+		this.setX(targetX);
+		this.setY(targetY);
 	}
 
 	

@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.prealpha.game.entities.BgStar;
+import com.prealpha.util.Point;
 import com.prealpha.util.Uti;
 
 public class MyGame extends BasicGame{
@@ -24,6 +25,7 @@ public class MyGame extends BasicGame{
 	
 	private BgStar[] bgStars;
 	private GameObject plane;
+	private GameObject uv;
 	
 	Input input;
 	
@@ -34,7 +36,7 @@ public class MyGame extends BasicGame{
 
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		winPos = new Screen(0.0f,0.0f,gc.getWidth(),gc.getHeight());
+		winPos = new Screen(0.0f,0.0f,gc.getWidth(),gc.getHeight(),gameSize);
 		
 		bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
 		for(int i=0;i<bgStars.length;i++)
@@ -42,7 +44,8 @@ public class MyGame extends BasicGame{
 			bgStars[i] = new BgStar(gameSize,rand);
 		}
 		
-		plane = new GameObject("assets/plane.png",1f);
+		plane = new GameObject("assets/plane.png",new Point(300,300),1f,1f);
+		uv = new GameObject("assets/uvTemplate.jpg",1f);
 		
         gc.setShowFPS(false);
         
@@ -78,6 +81,15 @@ public class MyGame extends BasicGame{
             plane.pos.setY(plane.pos.getY()- hip * Math.cos(Math.toRadians(rotation)));
         }
         
+        if(input.isKeyDown(Input.KEY_1))
+        {
+        	winPos.setMag(winPos.getMag()+0.005f);
+        }
+        if(input.isKeyDown(Input.KEY_2))
+        {
+        	winPos.setMag(winPos.getMag()-0.005f);
+        }
+        
         if(input.isKeyDown(Input.KEY_UP))
         {
         	float pos = winPos.getY()-1*delta; 
@@ -103,13 +115,15 @@ public class MyGame extends BasicGame{
 
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{		
-		for(BgStar bs:bgStars)
+		/*for(BgStar bs:bgStars)
 		{
 			bs.draw(winPos);
 		}
-		
+		*/
+		uv.draw(winPos);
 		plane.draw(winPos);
-		g.draw(gameSize);
+		
+		//g.draw(gameSize);
 	}
 
 	public static void main(String[] args) throws SlickException
