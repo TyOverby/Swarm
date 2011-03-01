@@ -1,36 +1,31 @@
 package com.prealpha.game;
 
-import java.awt.Font;
 import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.prealpha.game.entities.BgStar;
-import com.prealpha.util.Point;
-import com.prealpha.util.Size;
 import com.prealpha.util.Uti;
 
 public class MyGame extends BasicGame{
 
-	private Rectangle winPos = null;
-	private Rectangle gameSize = new Rectangle(0.0f,0.0f,1000,1000);
+	private Screen winPos = null;
+	private Rectangle gameSize = new Rectangle(0.0f,0.0f,2000,2000);
 	
 	Random rand = new Random();
 	
-	TrueTypeFont trueTypeFont = null;	
 	
 	private BgStar[] bgStars;
 	private GameObject plane;
+	
+	Input input;
 	
 	public MyGame()
 	{
@@ -39,7 +34,7 @@ public class MyGame extends BasicGame{
 
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		winPos = new Rectangle(0.0f,0.0f,gc.getWidth(),gc.getHeight());
+		winPos = new Screen(0.0f,0.0f,gc.getWidth(),gc.getHeight());
 		
 		bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
 		for(int i=0;i<bgStars.length;i++)
@@ -47,12 +42,8 @@ public class MyGame extends BasicGame{
 			bgStars[i] = new BgStar(gameSize,rand);
 		}
 		
-		
 		plane = new GameObject("assets/plane.png",1f);
 		
-		Font font = new Font("Verdana", Font.BOLD, 16);
-        trueTypeFont = new TrueTypeFont(font, true);
-        
         gc.setShowFPS(false);
         
 	}
@@ -63,8 +54,10 @@ public class MyGame extends BasicGame{
 	}
 	public void getInput(GameContainer gc, int delta)
 	{
-		Input input = gc.getInput();
-		 
+		input = gc.getInput();
+		winPos.setInput(input);
+		input.addMouseListener(winPos);
+		
         if(input.isKeyDown(Input.KEY_A))
         {
             plane.rotate(-0.2f * delta);
@@ -105,6 +98,7 @@ public class MyGame extends BasicGame{
         {
         	winPos.setX(winPos.getX()+1*delta);
         }
+        
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException 
@@ -115,9 +109,7 @@ public class MyGame extends BasicGame{
 		}
 		
 		plane.draw(winPos);
-		
-		trueTypeFont.drawString(0, 0, winPos.getX()+","+winPos.getY(),Color.red);
-		
+		g.draw(gameSize);
 	}
 
 	public static void main(String[] args) throws SlickException

@@ -3,7 +3,6 @@ package com.prealpha.game;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.prealpha.util.Point;
@@ -77,18 +76,21 @@ public class GameObject extends Image
 		return (isInLeft && isInRight && isInTop && isInBottom);
 	}
 	
-	public void draw(Rectangle offset)
+	public void draw(Screen offset)
 	{	
+		float magScale = offset.getMag();
+		float magPos = offset.getMag();
+		
 		float offX = offset.getX()*zIndex;
 		float offY = offset.getY()*zIndex;
 		
 		if(isIn(offset))
 		{
-			super.draw(this.pos.getX()-offX,this.pos.getY()-offY,this.scale,this.color);
+			super.draw(this.pos.getX()*magScale-offX,this.pos.getY()*magScale-offY,this.scale*magScale,this.color);
 		}
 		else
 		{
-			System.out.println("Off Screen");
+			//System.out.println("Off Screen");
 			//don't render it.
 		}
 	}

@@ -45,8 +45,6 @@ public class BgStar extends GameObject
 		final float DIFF = 3.5f;
 		final float OPAC = 0.3f;
 		
-		
-		
 		float[] of = new float[3];
 		for(int i=0;i<of.length;i++)
 		{
