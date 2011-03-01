@@ -44,7 +44,7 @@ public class MyGame extends BasicGame{
 			bgStars[i] = new BgStar(gameSize,rand);
 		}
 		
-		plane = new GameObject("assets/plane.png",new Point(300,300),1f,1f);
+		plane = new GameObject("assets/plane.png",new Point(50,300),1f,1f);
 		uv = new GameObject("assets/uvTemplate.jpg",1f);
 		
         gc.setShowFPS(false);
@@ -115,12 +115,12 @@ public class MyGame extends BasicGame{
 
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{		
-		/*for(BgStar bs:bgStars)
+		for(BgStar bs:bgStars)
 		{
 			bs.draw(winPos);
 		}
-		*/
-		uv.draw(winPos);
+		
+		//uv.draw(winPos);
 		plane.draw(winPos);
 		
 		//g.draw(gameSize);

@@ -38,10 +38,10 @@ public class Screen extends Rectangle implements MouseListener
 		//delta /= 100;
 		//setMag(getMag()+delta);
 		
-		setMag(getMag()*2);
+		setMag(getMag()+(float)delta/500);
 		
-		float targetX = 250;
-		float targetY = 250;
+		float targetX = mouseX-this.x*getMag();
+		float targetY = mouseY-this.y*getMag();
 		
 		this.setX(targetX);
 		this.setY(targetY);

@@ -63,13 +63,16 @@ public class GameObject extends Image
 		
 		float magScale = (float)1/offset.getMag();
 		
+		
 		this.setCenterOfRotation(this.getWidth()/2.0f*this.scale/magScale, this.getHeight()/2.0f*this.scale/magScale);
 		
-		float offX = offset.getX()*zIndex;
-		float offY = offset.getY()*zIndex;
+		float offX = offset.getX()*magScale*zIndex;
+		float offY = offset.getY()*magScale*zIndex;
 		
-		float objWidth = this.getWidth()*scale*magScale;
-		float objHeight = this.getHeight()*scale*magScale;
+		float objWidth = this.getWidth();//*scale/magScale;
+		float objHeight = this.getHeight();//*scale/magScale;
+		
+		//System.out.println(obj);
 		
 		boolean isInLeft = this.pos.getX()+objWidth>=offX;
 		boolean isInRight = this.pos.getX()<= offX+offset.getWidth();
