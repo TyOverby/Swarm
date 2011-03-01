@@ -10,9 +10,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 import com.prealpha.game.entities.BgStar;
-import com.prealpha.util.Point;
+import com.prealpha.game.entities.Ship;
 import com.prealpha.util.Uti;
 
 public class MyGame extends BasicGame{
@@ -22,7 +23,7 @@ public class MyGame extends BasicGame{
 	
 	Random rand = new Random();
 	
-	
+	private Ship[] ships;
 	private BgStar[] bgStars;
 	private GameObject plane;
 	private GameObject uv;
@@ -38,13 +39,20 @@ public class MyGame extends BasicGame{
 	{	
 		winPos = new Screen(0.0f,0.0f,gc.getWidth(),gc.getHeight(),gameSize);
 		
-		bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
+		/*bgStars = new BgStar[(int)(Uti.getArea(gameSize)/7000)];
 		for(int i=0;i<bgStars.length;i++)
 		{
 			bgStars[i] = new BgStar(gameSize,rand);
+		}*/
+		
+		ships = new Ship[20];
+		for(int i=0;i<ships.length;i++)
+		{
+			ships[i] = new Ship();
+			ships[i].setPos(new Vector2f(50,50));
 		}
 		
-		plane = new GameObject("assets/plane.png",new Point(50,300),1f,1f);
+		plane = new GameObject("assets/plane.png",new Vector2f(50,300),1f,1f);
 		uv = new GameObject("assets/uvTemplate.jpg",1f);
 		
         gc.setShowFPS(false);
@@ -77,8 +85,8 @@ public class MyGame extends BasicGame{
  
             float rotation = plane.getRotation();
  
-            plane.pos.setX(plane.pos.getX()+ hip * Math.sin(Math.toRadians(rotation)));
-            plane.pos.setY(plane.pos.getY()- hip * Math.cos(Math.toRadians(rotation)));
+            plane.pos.x =(float) (plane.pos.getX()+ hip * Math.sin(Math.toRadians(rotation)));
+            plane.pos.y =(float) (plane.pos.getY()- hip * Math.cos(Math.toRadians(rotation)));
         }
         
         if(input.isKeyDown(Input.KEY_1))
@@ -132,12 +140,20 @@ public class MyGame extends BasicGame{
 
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{		
-		for(BgStar bs:bgStars)
+		/*for(BgStar bs:bgStars)
 		{
 			bs.draw(winPos);
+		}*/
+		
+		
+		
+		uv.draw(winPos);
+		
+		for(Ship s: ships)
+		{
+			s.draw(winPos);
 		}
 		
-		//uv.draw(winPos);
 		plane.draw(winPos);
 		
 		//g.draw(gameSize);

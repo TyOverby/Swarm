@@ -4,13 +4,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-
-import com.prealpha.util.Point;
+import org.newdawn.slick.geom.Vector2f;
 
 public class GameObject extends Image
 {	
 	
-	public Point pos;
+	public Vector2f pos;
 	public float scale;
 	public float zIndex;
 	
@@ -19,7 +18,7 @@ public class GameObject extends Image
 	public GameObject(String filePath) throws SlickException
 	{
 		super(filePath);
-		this.pos = new Point();
+		this.pos = new Vector2f();
 		this.scale = 1f;
 		this.zIndex = 1f;
 	}
@@ -27,13 +26,13 @@ public class GameObject extends Image
 	public GameObject(String filePath,float zIndex) throws SlickException
 	{
 		super(filePath);
-		this.pos = new Point();
+		this.pos = new Vector2f();
 		this.scale = 1f;
 		this.zIndex = zIndex;
 		
 		this.setCenterOfRotation(this.getWidth()/2.0f*scale, this.getHeight()/2.0f*scale);
 	}
-	public GameObject(String filePath,Point p,float scale,float zIndex) throws SlickException
+	public GameObject(String filePath,Vector2f p,float scale,float zIndex) throws SlickException
 	{
 		super(filePath);
 		this.pos = p;
@@ -45,7 +44,7 @@ public class GameObject extends Image
 	public GameObject(String filePath,float x, float y,float scale,float zIndex) throws SlickException
 	{
 		super(filePath);
-		this.pos = new Point(x,y);
+		this.pos = new Vector2f(x,y);
 		this.scale = scale;
 		this.zIndex = zIndex;
 		

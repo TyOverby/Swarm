@@ -29,8 +29,8 @@ public class BgStar extends GameObject
 	{
 		int xPos = Uti.randRange(r,0, (int) gs.getWidth());
 		int yPos = Uti.randRange(r,0, (int) gs.getHeight());
-		this.pos.setX(xPos);
-		this.pos.setY(yPos);
+		this.pos.x = (xPos);
+		this.pos.y = (yPos);
 	}
 	
 	private void setScale()
