@@ -98,7 +98,7 @@ public class GameObject extends Image
 		}
 		else
 		{
-			System.out.println(offset.getMag());
+			//System.out.println(offset.getMag());
 			//don't render it.
 		}
 	}

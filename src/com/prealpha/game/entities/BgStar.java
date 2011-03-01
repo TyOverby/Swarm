@@ -20,9 +20,8 @@ public class BgStar extends GameObject
 		
 		this.angle = r.nextInt(180);
 		
-		
-		this.setPos(gs);
 		this.setScale();
+		this.setPos(gs);
 		this.setColor();
 	}
 	

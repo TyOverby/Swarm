@@ -18,7 +18,7 @@ import com.prealpha.util.Uti;
 public class MyGame extends BasicGame{
 
 	private Screen winPos = null;
-	private Rectangle gameSize = new Rectangle(0.0f,0.0f,2000,2000);
+	private Rectangle gameSize = new Rectangle(0.0f,0.0f,32000,32000);
 	
 	Random rand = new Random();
 	
@@ -83,32 +83,49 @@ public class MyGame extends BasicGame{
         
         if(input.isKeyDown(Input.KEY_1))
         {
-        	winPos.setMag(winPos.getMag()+0.005f);
+        	winPos.setMag(winPos.getMag()+0.003f);
         }
         if(input.isKeyDown(Input.KEY_2))
         {
         	winPos.setMag(winPos.getMag()-0.005f);
         }
+        if(input.isKeyDown(Input.KEY_ENTER))
+        {
+        	String form = "["+winPos.getWidth()+","+winPos.getHeight()+"] ("+winPos.getX()+","+winPos.getY()+") ;" +winPos.getMag();
+        	System.out.println(form);
+        }
         
         if(input.isKeyDown(Input.KEY_UP))
         {
         	float pos = winPos.getY()-1*delta; 
-        	
-        	winPos.setY(pos);
+        	if(pos>=0)
+        	{
+        		winPos.setY(pos);
+        	}
         }
         if(input.isKeyDown(Input.KEY_DOWN))
         {
         	float pos = winPos.getY()+1*delta;
-        	
-        	winPos.setY(pos);
+        	if(pos+winPos.getHeight()<=gameSize.getHeight())
+        	{
+        		winPos.setY(pos);
+        	}
         }
         if(input.isKeyDown(Input.KEY_LEFT))
         {
-        	winPos.setX(winPos.getX()-1*delta);
+        	float pos = winPos.getX()-1*delta;
+        	if(pos>=0)
+        	{
+        		winPos.setX(pos);
+        	}
         }
         if(input.isKeyDown(Input.KEY_RIGHT))
         {
-        	winPos.setX(winPos.getX()+1*delta);
+        	float pos = winPos.getX()+1*delta;
+        	if(pos+winPos.getWidth()<=gameSize.getWidth())
+        	{
+        		winPos.setX(pos);
+        	}
         }
         
 	}

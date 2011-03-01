@@ -29,6 +29,7 @@ public class Screen extends Rectangle implements MouseListener
 	}
 	public void setMag(float mag) 
 	{
+		if(mag<2&&mag>0.5f)
 		this.mag = mag;
 		this.setWidth(INIT_WIDTH/mag);
 		this.setHeight(INIT_HEIGHT/mag);
